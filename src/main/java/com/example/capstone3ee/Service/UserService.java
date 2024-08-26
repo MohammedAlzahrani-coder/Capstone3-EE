@@ -28,7 +28,7 @@ public class UserService {
 
     // UPDATE
     public void updateUser(Integer id, User updatedUser) {
-        User user =userRepository.findByuserId(id);
+        User user =userRepository.findUserById(id);
         if (user == null) {
             throw new RuntimeException("user not found");
         }
@@ -46,10 +46,9 @@ public class UserService {
 
     // DELETE
     public void deleteUser(Integer id) {
-        User user = userRepository.findByuserId(id);
+        User user = userRepository.findUserById(id);
         if (user==null){
             throw new RuntimeException("user not found");
-
         }
         userRepository.deleteById(id);
     }

@@ -25,22 +25,22 @@ public class RequestController {
 
     // ADD a new request
     @PostMapping("/add")
-    public ResponseEntity<Request> addRequest(@RequestBody Request request) {
+    public ResponseEntity addRequest(@RequestBody Request request) {
         requestService.addRequest(request);
-        return new ResponseEntity<>(request, HttpStatus.CREATED);
+        return ResponseEntity.status(200).body("Request added");
     }
 
     // UPDATE an existing request
     @PutMapping("/update/{id}")
-    public ResponseEntity<Request> updateRequest(@PathVariable Integer id, @RequestBody Request updatedRequest) {
+    public ResponseEntity updateRequest(@PathVariable Integer id, @RequestBody Request updatedRequest) {
         Request request = requestService.updateRequest(id, updatedRequest);
-        return new ResponseEntity<>(request, HttpStatus.OK);
+        return ResponseEntity.status(200).body("Request updated");
     }
 
     // DELETE a request
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteRequest(@PathVariable Integer id) {
+    public ResponseEntity deleteRequest(@PathVariable Integer id) {
         requestService.deleteRequest(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return  ResponseEntity.status(200).body("Request deleted");
     }
 }

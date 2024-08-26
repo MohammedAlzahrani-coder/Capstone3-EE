@@ -20,12 +20,12 @@ public class User {
 
     @NotEmpty(message = "Username cannot be null or empty")
     @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters")
-    @Column(nullable = false, unique = true, length = 20)
+  //  @Column(nullable = false, unique = true, length = 20)
     private String username;
 
     @NotNull(message = "Email cannot be null")
     @Email(message = "Email must be a valid email address")
-    @Column(columnDefinition = "varchar(30) not null unique")
+ //   @Column(columnDefinition = "varchar(30) not null unique")
     private String email;
 
     @NotEmpty(message = "Password cannot be null or empty")
@@ -51,7 +51,7 @@ public class User {
     private int evaluationResult;
 
     @NotEmpty(message = "Role cannot be null or empty")
-    @Column(nullable = false, length = 20)
+  //  @Column(nullable = false, length = 20)
     @Pattern(regexp = "^(admin|user)$", message = "Role must be 'admin' or 'user'")
     private String role;
 

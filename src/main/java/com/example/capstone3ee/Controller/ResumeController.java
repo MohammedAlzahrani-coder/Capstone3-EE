@@ -19,30 +19,30 @@ public class ResumeController {
 
     // GET all resumes
     @GetMapping("/get")
-    public ResponseEntity<List<Resume>> getAllResumes() {
+    public ResponseEntity getAllResumes() {
         List<Resume> resumes = resumeService.getAllResumes();
-        return new ResponseEntity<>(resumes, HttpStatus.OK);
+        return  ResponseEntity.status(200).body(resumes);
     }
 
     // ADD a new resume
     @PostMapping("/add")
-    public ResponseEntity<Resume> addResume(@RequestParam Integer userId, @Validated @RequestBody Resume resume) {
+    public ResponseEntity addResume(@RequestParam Integer userId, @Validated @RequestBody Resume resume) {
         resumeService.addResume(userId, resume);
-        return new ResponseEntity<>(resume, HttpStatus.CREATED);
+        return ResponseEntity.status(201).body("resume added successfully");
     }
 
     // UPDATE an existing resume
     @PutMapping("/update/{id}")
-    public ResponseEntity<Resume> updateResume(@PathVariable Integer id, @Validated @RequestBody Resume updatedResume) {
+    public ResponseEntity updateResume(@PathVariable Integer id, @Validated @RequestBody Resume updatedResume) {
         Resume resume = resumeService.updateResume(id, updatedResume);
-        return new ResponseEntity<>(resume, HttpStatus.OK);
+        return ResponseEntity.status(201).body("resume updated successfully");
     }
 
     // DELETE a resume
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteResume(@PathVariable Integer id) {
+    public ResponseEntity deleteResume(@PathVariable Integer id) {
         resumeService.deleteResume(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(201).body("resume deleted successfully");
     }
 
 }

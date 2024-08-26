@@ -15,7 +15,6 @@ import java.util.List;
 public class ResumeService {
 
     private final ResumeRepository resumeRepository;
-
     private final UserRepository userRepository;
 
     // GET all resumes
@@ -25,7 +24,7 @@ public class ResumeService {
 
     // ADD a new resume
     public void addResume(Integer userId, Resume resume) {
-        User user = userRepository.findByuserId(userId);
+        User user = userRepository.findUserById(userId);
         if (user == null){
             new ApiException("User not found");
         }
@@ -51,9 +50,12 @@ public class ResumeService {
 
     // DELETE a resume
     public void deleteResume(Integer id) {
-        if (!resumeRepository.existsById(id)) {
+        Resume resume = resumeRepository.findResumeById(id);
+        if (resume == null) {
             throw new ApiException("Resume not found");
         }
-        resumeRepository.deleteById(id);
+        resumeRepository.delete(resume);
     }
+
+
 }

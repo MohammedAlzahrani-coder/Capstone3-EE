@@ -33,7 +33,7 @@ public class ExpertService {
             throw new ApiException("Expert not found");
         }
 
-        updateExpert.setUser_id(expert.getUser_id());
+        updateExpert.setUserId(expert.getUserId());
         updateExpert.setExpertise(expert.getExpertise());
         updateExpert.setQualifications(expert.getQualifications());
         updateExpert.setExperience(expert.getExperience());

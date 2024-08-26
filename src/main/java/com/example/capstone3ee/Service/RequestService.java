@@ -26,8 +26,8 @@ public class RequestService {
     public Request updateRequest(Integer id, Request updatedRequest) {
         Request request = requestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Request not found"));
-        request.setUser_id(updatedRequest.getUser_id());
-        request.setExpert_id(updatedRequest.getExpert_id());
+        request.setUserId(updatedRequest.getUserId());
+        request.setExpertId(updatedRequest.getExpertId());
         request.setStatus(updatedRequest.getStatus());
 
         return requestRepository.save(request);

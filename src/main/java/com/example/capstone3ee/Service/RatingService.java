@@ -31,8 +31,8 @@ public class RatingService {
         rating.setRequest(updatedRating.getRequest());
         rating.setExpert(updatedRating.getExpert());
         rating.setComment(updatedRating.getComment());
-        rating.setAdd_rating(updatedRating.getAdd_rating());
-        rating.setGet_rating(updatedRating.getGet_rating());
+        rating.setAddRating(updatedRating.getAddRating());
+        rating.setGetRating(updatedRating.getGetRating());
 
         return ratingRepository.save(rating);
     }

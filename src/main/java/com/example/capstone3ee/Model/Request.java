@@ -22,15 +22,15 @@ public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer request_id;
+    private Integer id;
 
     @NotNull(message = "User ID cannot be null")
     @Column(columnDefinition = "int not null")
-    private Integer user_id;
+    private Integer userId;
 
     @NotNull(message = "Expert ID cannot be null")
     @Column(columnDefinition = "int not null")
-    private Integer expert_id;
+    private Integer expertId;
 
     @NotEmpty(message = "Status cannot be null or empty")
     @Column(columnDefinition = "varchar(20) not null")

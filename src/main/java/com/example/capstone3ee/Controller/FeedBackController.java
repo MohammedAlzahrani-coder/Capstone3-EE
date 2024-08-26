@@ -20,7 +20,8 @@ public class FeedBackController {
 
     @GetMapping("/get")
     public ResponseEntity getAllFeedbacks() {
-        return ResponseEntity.ok(  feedbackService.getAllFeedback());
+
+        return ResponseEntity.status(200).body(feedbackService.getAllFeedback());
     }
 
     @PostMapping("/add")

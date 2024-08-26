@@ -14,16 +14,15 @@ public class FeedBack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feedback_id")
-    @NotNull(message = "Feedback ID cannot be null")
-    private Integer feedbackId;
+   // @Column(name = "feedback_id")
+    private Integer id;
 
-    @Column(name = "request_id")
+    //@Column(name = "request_id")
     @NotNull(message = "Request ID cannot be null")
     private Integer requestId;
 
-    @Column(name = "feedback_text")
-    @NotBlank(message = "Feedback text cannot be empty")
+   // @Column(name = "feedback_text")
+    //@NotBlank(message = "Feedback text cannot be empty")
     private String feedbackText;
 
 
