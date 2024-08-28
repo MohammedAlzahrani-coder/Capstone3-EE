@@ -1,6 +1,7 @@
 package com.example.capstone3ee.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -17,18 +18,7 @@ import lombok.Setter;
 public class Rating {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer rating_id;
-
-    @NotNull(message = "Request ID cannot be null")
-    @ManyToOne
-    @JoinColumn(name = "request_id", nullable = false)
-    private Request request;
-
-    @NotNull(message = "Expert ID cannot be null")
-    @ManyToOne
-    @JoinColumn(name = "expert_id", nullable = false)
-    private Expert expert;
+    private Integer ratingId;
 
     @NotEmpty(message = "Comment cannot be null or empty")
     @Column(columnDefinition = "varchar(255) not null")
@@ -36,9 +26,30 @@ public class Rating {
 
     @NotNull(message = "Rating cannot be null")
     @Column(columnDefinition = "int not null")
-    private Integer add_rating;
+    private Integer ratings;
 
-    @NotNull(message = "Rating cannot be null")
-    @Column(columnDefinition = "int not null")
-    private Integer get_rating;
+
+//    @NotNull(message = "Rating cannot be null")
+//    @Column(columnDefinition = "int not null")
+//    private Integer getRating;
+
+
+
+    // --------------------------------- Relations ---------------------
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private Request request; // request must exist to have rating
+
+
+//    @ManyToOne
+//    @JsonIgnore
+//    private User user; // one user have many ratings
+
+
+
+
+    //    @ManyToOne
+//    private Expert expert;
+
 }

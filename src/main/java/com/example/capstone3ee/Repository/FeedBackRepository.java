@@ -4,5 +4,7 @@ import com.example.capstone3ee.Model.FeedBack;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FeedBackRepository extends JpaRepository<FeedBack, Integer> {
-    FeedBack findFeedBackById(Integer id);
+    FeedBack findFeedBackByFeedbackId(Integer id);
+
+    FeedBack findFeedBackByRequestReqId(Integer requestId);
 }

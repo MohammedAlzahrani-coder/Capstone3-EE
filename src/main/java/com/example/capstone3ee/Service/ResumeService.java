@@ -1,6 +1,7 @@
 package com.example.capstone3ee.Service;
 
 import com.example.capstone3ee.Api.ApiException;
+import com.example.capstone3ee.DTO.ResumeDTO;
 import com.example.capstone3ee.Model.Resume;
 import com.example.capstone3ee.Model.User;
 import com.example.capstone3ee.Repository.ResumeRepository;
@@ -15,7 +16,6 @@ import java.util.List;
 public class ResumeService {
 
     private final ResumeRepository resumeRepository;
-
     private final UserRepository userRepository;
 
     // GET all resumes
@@ -24,36 +24,37 @@ public class ResumeService {
     }
 
     // ADD a new resume
-    public void addResume(Integer userId, Resume resume) {
-        User user = userRepository.findByuserId(userId);
+    public void addResume(ResumeDTO resumeDTO) {
+        User user = userRepository.findUserByUsersId(resumeDTO.getUserId());
         if (user == null){
-            new ApiException("User not found");
+           throw new ApiException("User not found");
         }
-        resume.setUserId(userId);
+        Resume resume = new Resume(null,resumeDTO.getContent(),resumeDTO.getSkills(),resumeDTO.getProjects(),resumeDTO.getCertification(),resumeDTO.getAward(),resumeDTO.getResumeRating(),resumeDTO.getEducation() ,user);
         resumeRepository.save(resume);
     }
 
     // UPDATE an existing resume
-    public Resume updateResume(Integer id, Resume updatedResume) {
-        Resume resume = resumeRepository.findResumeById(id);
+    public Resume updateResume(ResumeDTO resumeDTO) {
+        Resume resume = resumeRepository.findResumeByResumeId(resumeDTO.getUserId());
         if (resume == null){
-            new ApiException("User not found");
+           throw  new ApiException("User not found");
         }
-        resume.setUserId(updatedResume.getUserId());
-        resume.setContent(updatedResume.getContent());
-        resume.setSkills(updatedResume.getSkills());
-        resume.setProjects(updatedResume.getProjects());
-        resume.setCertification(updatedResume.getCertification());
-        resume.setAward(updatedResume.getAward());
-        resume.setEducation(updatedResume.getEducation());
+        resume.setContent(resumeDTO.getContent());
+        resume.setSkills(resumeDTO.getSkills());
+        resume.setProjects(resumeDTO.getProjects());
+        resume.setCertification(resumeDTO.getCertification());
+        resume.setAward(resumeDTO.getAward());
+        resume.setEducation(resumeDTO.getEducation());
         return resumeRepository.save(resume);
     }
 
-    // DELETE a resume
     public void deleteResume(Integer id) {
-        if (!resumeRepository.existsById(id)) {
+        Resume resume = resumeRepository.findResumeByResumeId(id);
+        if (resume == null) {
             throw new ApiException("Resume not found");
         }
-        resumeRepository.deleteById(id);
+        resumeRepository.delete(resume);
     }
+
+
 }

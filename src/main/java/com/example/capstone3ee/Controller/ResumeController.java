@@ -1,7 +1,9 @@
 package com.example.capstone3ee.Controller;
 
+import com.example.capstone3ee.DTO.ResumeDTO;
 import com.example.capstone3ee.Model.Resume;
 import com.example.capstone3ee.Service.ResumeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/resumes")
+@RequestMapping("/api/v1/resume")
 @RequiredArgsConstructor
 public class ResumeController {
 
@@ -19,30 +21,30 @@ public class ResumeController {
 
     // GET all resumes
     @GetMapping("/get")
-    public ResponseEntity<List<Resume>> getAllResumes() {
+    public ResponseEntity getAllResumes() {
         List<Resume> resumes = resumeService.getAllResumes();
-        return new ResponseEntity<>(resumes, HttpStatus.OK);
+        return  ResponseEntity.status(200).body(resumes);
     }
 
     // ADD a new resume
     @PostMapping("/add")
-    public ResponseEntity<Resume> addResume(@RequestParam Integer userId, @Validated @RequestBody Resume resume) {
-        resumeService.addResume(userId, resume);
-        return new ResponseEntity<>(resume, HttpStatus.CREATED);
+    public ResponseEntity addResume( @Valid @RequestBody ResumeDTO resumeDTO) {
+        resumeService.addResume(resumeDTO);
+        return ResponseEntity.status(201).body("resume added successfully");
     }
 
-    // UPDATE an existing resume
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Resume> updateResume(@PathVariable Integer id, @Validated @RequestBody Resume updatedResume) {
-        Resume resume = resumeService.updateResume(id, updatedResume);
-        return new ResponseEntity<>(resume, HttpStatus.OK);
+    // UPDATE an existing resume's user
+    @PutMapping("/update")
+    public ResponseEntity updateResume( @Valid @RequestBody ResumeDTO resumeDTO) {
+        Resume resume = resumeService.updateResume(resumeDTO);
+        return ResponseEntity.status(201).body("resume updated successfully");
     }
 
     // DELETE a resume
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteResume(@PathVariable Integer id) {
+    public ResponseEntity deleteResume(@PathVariable Integer id) {
         resumeService.deleteResume(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(201).body("resume deleted successfully");
     }
 
 }

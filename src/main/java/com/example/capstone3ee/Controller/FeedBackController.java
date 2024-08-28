@@ -1,8 +1,10 @@
 package com.example.capstone3ee.Controller;
 
+import com.example.capstone3ee.DTO.FeedBackDTO;
 import com.example.capstone3ee.Model.FeedBack;
 
 import com.example.capstone3ee.Service.FeedBackService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +22,19 @@ public class FeedBackController {
 
     @GetMapping("/get")
     public ResponseEntity getAllFeedbacks() {
-        return ResponseEntity.ok(  feedbackService.getAllFeedback());
+        return ResponseEntity.status(200).body(feedbackService.getAllFeedback());
     }
 
     @PostMapping("/add")
-    public ResponseEntity createFeedback(@Validated @RequestBody FeedBack feedback) {
-        feedbackService.addFeedback(feedback);
-        return ResponseEntity.status(200).body("Feedback Added");
+    public ResponseEntity createFeedbackToRequest(@Valid @RequestBody FeedBackDTO feedBackDTO) {
+        feedbackService.addFeedback(feedBackDTO);
+        return ResponseEntity.status(200).body("Feedback Added To Request Successfully");
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity updateFeedback(@PathVariable Integer id, @Validated @RequestBody FeedBack updatedFeedback) {
-       feedbackService.updateFeedback(id, updatedFeedback);
-        return ResponseEntity.status(200).body("FeedBack Updated");
+    @PutMapping("/update")
+    public ResponseEntity updateFeedback( @Valid @RequestBody FeedBackDTO feedBackDTO) {
+       feedbackService.updateFeedback(feedBackDTO);
+        return ResponseEntity.status(200).body(" FeedBack's Request Updated");
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,4 +42,19 @@ public class FeedBackController {
         feedbackService.deleteFeedback(id);
         return ResponseEntity.status(200).body("feedback deleted");
     }
+
+
+    @GetMapping("/{requestId}/feedback")// get feedBack for request
+    public ResponseEntity<String> getAssessmentFeedback(@PathVariable Integer requestId) {
+        String feedback = feedbackService.getFeedbackForRequest(requestId);
+
+        if(feedback != null) {
+            return ResponseEntity.ok(feedback);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
 }

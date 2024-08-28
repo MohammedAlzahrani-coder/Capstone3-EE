@@ -20,45 +20,35 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 public class Resume {
-
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer resumeId;
 
-    @NotNull(message = "User ID cannot be null")
-    @Column(columnDefinition = "int not null")
-    private Integer userId;
-
-    @NotEmpty(message = "Content cannot be null or empty")
     @Column(columnDefinition = "varchar(50) not null")
     private String content;
 
     @ElementCollection
-    @NotEmpty(message = "Skills cannot be empty")
     private List<String> skills;
 
     @ElementCollection
-    @NotEmpty(message = "Projects cannot be empty")
     private List<String> projects;
 
     @ElementCollection
-    @NotEmpty(message = "Certifications cannot be empty")
     private List<String> certification;
 
     @ElementCollection
-    @NotEmpty(message = "Awards cannot be empty")
     private List<String> award;
 
-    @NotEmpty(message = "Education cannot be null or empty")
+    private int resumeRating;
+
     @Column(columnDefinition = "varchar(50) not null")
     private String education;
 
-//    @OneToOne
-//    @MapsId
-//    @JsonIgnore
-//    private User user;
-//
+    // ------------------------------------------ Relations -------------------
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private User user; // must user exist to have resume
+
 
 
 

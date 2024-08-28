@@ -1,7 +1,8 @@
 package com.example.capstone3ee.Service;
 
-import com.example.capstone3ee.Model.User;
-import com.example.capstone3ee.Repository.UserRepository;
+import com.example.capstone3ee.Api.ApiException;
+import com.example.capstone3ee.Model.*;
+import com.example.capstone3ee.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,9 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ExpertRepository expertRepository;
+    private final RatingRepository ratingRepository;
+    private RequestRepository requestRepository;
 
     // GET
     public List<User> getAllUser() {
@@ -28,9 +32,9 @@ public class UserService {
 
     // UPDATE
     public void updateUser(Integer id, User updatedUser) {
-        User user =userRepository.findByuserId(id);
+        User user =userRepository.findUserByUsersId(id);
         if (user == null) {
-            throw new RuntimeException("user not found");
+            throw new ApiException("user not found");
         }
         user.setUsername(updatedUser.getUsername());
         user.setEmail(updatedUser.getEmail());
@@ -44,13 +48,32 @@ public class UserService {
          userRepository.save(user);
     }
 
-    // DELETE
     public void deleteUser(Integer id) {
-        User user = userRepository.findByuserId(id);
+        User user = userRepository.findUserByUsersId(id);
         if (user==null){
-            throw new RuntimeException("user not found");
-
+            throw new ApiException("user not found");
         }
         userRepository.deleteById(id);
     }
+// -------------------------------------- end point ----------------------------------------------------
+
+    // استشارة : by nora
+    public void createRequest(Integer userId, Integer expertId, String requestDescription) {
+        User user = userRepository.findUserByUsersId(userId);
+        Expert expert = expertRepository.findExpertByExpertId(expertId);
+        if (user == null) {
+            throw new ApiException("User not found");
+        }
+        if (expert == null) {
+            throw new ApiException("Expert not found");
+        }
+        Request request = new Request();
+        request.setUser(user);
+        request.setExpert(expert);
+        request.setRequestDescription(requestDescription);
+        requestRepository.save(request);
+    }
+
+
+
 }

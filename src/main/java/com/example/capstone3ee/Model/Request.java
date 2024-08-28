@@ -1,6 +1,7 @@
 package com.example.capstone3ee.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -22,18 +23,38 @@ public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer request_id;
+    private Integer reqId;
 
-    @NotNull(message = "User ID cannot be null")
-    @Column(columnDefinition = "int not null")
-    private Integer user_id;
 
-    @NotNull(message = "Expert ID cannot be null")
-    @Column(columnDefinition = "int not null")
-    private Integer expert_id;
-
-    @NotEmpty(message = "Status cannot be null or empty")
-    @Column(columnDefinition = "varchar(20) not null")
+  //  @NotEmpty(message = "Status cannot be null or empty")
+  //  @Column(columnDefinition = "varchar(20) not null")
     private String status;
+
+    private String requestDescription;
+
+
+    // -------------------------------------------- Relations -----------------------------
+     @ManyToOne
+     @JsonIgnore
+     private Expert expert; // one expert have many requests
+
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "request")// one request have one feedback
+    @PrimaryKeyJoinColumn
+    private FeedBack feedBack;
+
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "request")// request must exist to have rating
+    @PrimaryKeyJoinColumn
+    private Rating rating;
+
+    @ManyToOne
+    @JsonIgnore
+    private User user; // one user have many request
+
+
+
+
+
 
 }
