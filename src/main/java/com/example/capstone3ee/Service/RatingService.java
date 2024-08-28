@@ -1,8 +1,12 @@
 // src/main/java/com/example/capstone3ee/Service/RatingService.java
 package com.example.capstone3ee.Service;
 
+import com.example.capstone3ee.Api.ApiException;
+import com.example.capstone3ee.DTO.RatingDTO;
 import com.example.capstone3ee.Model.Rating;
+import com.example.capstone3ee.Model.Request;
 import com.example.capstone3ee.Repository.RatingRepository;
+import com.example.capstone3ee.Repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,31 +17,37 @@ import java.util.List;
 public class RatingService {
 
     private final RatingRepository ratingRepository;
+    private final RequestRepository requestRepository;
 
     // GET
     public List<Rating> getAllRatings() {
         return ratingRepository.findAll();
     }
 
-    // ADD
-    public void addRating(Rating rating) {
+
+    public void addRating(RatingDTO ratingDTO) {
+        Request request = requestRepository.findRequestByReqId(ratingDTO.getRequestId());
+        if (request == null) {
+            throw new ApiException("Request not found");
+        }
+        Rating rating = new Rating(null,ratingDTO.getComment(),ratingDTO.getRatings(),request);
         ratingRepository.save(rating);
     }
 
-    // UPDATE
-    public Rating updateRating(Integer id, Rating updatedRating) {
-        Rating rating = ratingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rating not found"));
-        rating.setRequest(updatedRating.getRequest());
-        rating.setExpert(updatedRating.getExpert());
-        rating.setComment(updatedRating.getComment());
-        rating.setAdd_rating(updatedRating.getAdd_rating());
-        rating.setGet_rating(updatedRating.getGet_rating());
+
+
+    public Rating updateRating(RatingDTO ratingDTO) {
+        Rating rating = ratingRepository.findRatingByRatingId(ratingDTO.getRequestId());
+        if (rating == null) {
+            throw new ApiException("Rating not found");
+        }
+        rating.setRatings(ratingDTO.getRatings());
+        rating.setComment(ratingDTO.getComment());
+        // rating.setExpert(updatedRating.getExpert());
 
         return ratingRepository.save(rating);
     }
 
-    // DELETE
     public void deleteRating(Integer id) {
         ratingRepository.deleteById(id);
     }

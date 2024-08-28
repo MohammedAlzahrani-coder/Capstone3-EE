@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.capstone3ee.Model.Rating;
 
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
-    Rating findRatingById(Integer id);
+    Rating findRatingByRatingId(Integer id);
 }

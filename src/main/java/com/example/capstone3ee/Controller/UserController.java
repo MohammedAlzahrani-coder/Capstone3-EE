@@ -2,6 +2,7 @@ package com.example.capstone3ee.Controller;
 
 import com.example.capstone3ee.Model.User;
 import com.example.capstone3ee.Service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +25,14 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity createUser(@Validated @RequestBody User user) {
+    public ResponseEntity createUser(@Valid @RequestBody User user) {
        userService.addUser(user);
         return ResponseEntity.status(200).body("user added");
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity updateUser(@PathVariable Integer id, @Validated @RequestBody User updatedUser) {
-    userService.updateUser(id, updatedUser);
+    public ResponseEntity updateUser(@PathVariable Integer id, @Valid @RequestBody User user) {
+    userService.updateUser(id, user);
         return ResponseEntity.status(200).body("user updated");
     }
 
@@ -39,5 +40,12 @@ public class UserController {
     public ResponseEntity deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return ResponseEntity.status(200).body("user deleted");
+    }
+     // --------------------------------------- end point ------------------------------------
+
+    @PostMapping("/{userId}/requests/{expertId}")
+    public ResponseEntity<String> createRequest(@PathVariable Integer userId, @PathVariable Integer expertId, @RequestBody String requestDescription) {
+        userService.createRequest(userId, expertId, requestDescription);
+        return ResponseEntity.ok("Request created successfully");
     }
 }

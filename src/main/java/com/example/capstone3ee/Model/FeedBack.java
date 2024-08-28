@@ -1,5 +1,6 @@
 package com.example.capstone3ee.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -13,18 +14,20 @@ import lombok.*;
 public class FeedBack {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feedback_id")
-    @NotNull(message = "Feedback ID cannot be null")
     private Integer feedbackId;
 
-    @Column(name = "request_id")
-    @NotNull(message = "Request ID cannot be null")
-    private Integer requestId;
+    //@Column(name = "request_id")
+//    @NotNull(message = "Request ID cannot be null")
+//    private Integer requestId;
 
-    @Column(name = "feedback_text")
-    @NotBlank(message = "Feedback text cannot be empty")
+   // @Column(name = "feedback_text")
+    //@NotBlank(message = "Feedback text cannot be empty")
     private String feedbackText;
 
+    // -------------------------------------------- Relations -----------------------------
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private Request request; //must request exist to have feedback
 
 }
